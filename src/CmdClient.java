@@ -53,6 +53,7 @@ public class CmdClient {
 	}
 
 	public void connectToServer() {
+
 		try {
 			conn2.connect();
 		} catch (SmackException e) {
@@ -65,11 +66,23 @@ public class CmdClient {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		try {
+			conn2.login();
+		} catch (XMPPException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SmackException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
 	public void connectsendMessage(String key1, String key2, String imsi,
-			String phone_number, String message) {
+			String phone_number, String message, String log_tag) {
 
 		XMPPTCPConnectionConfiguration config = XMPPTCPConnectionConfiguration
 				.builder().setUsernameAndPassword(key1, key2)
@@ -155,14 +168,16 @@ public class CmdClient {
 			e.printStackTrace();
 		}
 
-		sendMessage(imsi, phone_number, message);
+		sendMessage(imsi, phone_number, message, log_tag);
+
 		while (true) {
 
 		}
 
 	}
 
-	public void sendMessage(String imsi, String phone_number, String message) {
+	public void sendMessage(String imsi, String phone_number, String message,
+			String log_tag) {
 		ChatManager chatmanager = ChatManager.getInstanceFor(conn2);
 
 		Chat newChat = chatmanager.createChat(imsi + "@candr.com");
@@ -179,6 +194,8 @@ public class CmdClient {
 					+ e.toString());
 			e.printStackTrace();
 		}
+
+		System.out.println(log_tag);
 	}
 
 }

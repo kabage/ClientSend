@@ -17,13 +17,14 @@ public class Cli {
 	String key1, key2, imsi, phone_number, message, query;
 	private Options options = new Options();
 	CommandLine cmd;
+	CmdClient client;
 
 	public Cli(String[] args) {
 
 		this.args = args;
 
 		options.addOption(null, "help", false, "options available");
-		options.addOption(null, "query", true, "query data on device");
+		options.addOption(null, "query", false, "query data on device");
 		options.addOption(null, "key1", true, "first api key");
 		options.addOption(null, "key2", true, "second api key");
 		options.addOption(null, "imsi", true, "phone_identifier");
@@ -45,32 +46,36 @@ public class Cli {
 
 			} else if (cmd.hasOption("query")) {
 
-				System.out.println("connecting to server.../n");
-				
 				System.out.print("> ");
 				Scanner in = new Scanner(System.in);
-				String query = in.next().toLowerCase();
+				String query = in.nextLine();
 				in.close();
-				System.out.println("the query made was" + " " + query);
+				System.out.println("the query made was" + ".. " + query);
 
 				if (query.equalsIgnoreCase("select messages")) {
-					System.out.println("select messages.......");
+
+					System.out.println("chill....");
+
+					key1 = cmd.getOptionValue("key1");
+					key2 = cmd.getOptionValue("key2");
+					imsi = cmd.getOptionValue("imsi");
+
+					client = new CmdClient();
+					client.connectsendMessage(key1, key2, imsi, "",
+							"select messages", "query made");
+					;
 
 				} else if (query.equalsIgnoreCase("select received_calls")) {
 
-					System.out.println("select received calls");
+					client.connectsendMessage(key1, key2, imsi, "",
+							"select received_calls", "query made");
+
 				} else if (query.equalsIgnoreCase("select missed_calls")) {
-
-					System.out.println("select misssed calls");
+					client.connectsendMessage(key1, key2, imsi, "",
+							"select missed_calls", "query made");
 				}
-				in.close();
+				// in.close();
 
-				query = cmd.getOptionValue("query");
-				key1 = cmd.getOptionValue("key1");
-				key2 = cmd.getOptionValue("key2");
-				imsi = cmd.getOptionValue("imsi");
-				System.out.println("Query made out to " + imsi);
-				System.exit(0);
 			}
 
 			else if (cmd.hasOption("message")) {
@@ -79,10 +84,10 @@ public class Cli {
 				imsi = cmd.getOptionValue("imsi");
 				phone_number = cmd.getOptionValue("phone_number");
 				message = cmd.getOptionValue("message");
-				CmdClient client = new CmdClient();
+				client = new CmdClient();
 
 				client.connectsendMessage(key1, key2, imsi, phone_number,
-						message);
+						message, "message sent");
 
 				System.out.println();
 
