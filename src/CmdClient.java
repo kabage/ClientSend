@@ -10,7 +10,6 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.chat.Chat;
 import org.jivesoftware.smack.chat.ChatManager;
-import org.jivesoftware.smack.filter.StanzaFilter;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Stanza;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
@@ -29,27 +28,18 @@ public class CmdClient {
 		new Cli(args).parse();
 	}
 
-	@SuppressWarnings("deprecation")
 	public void listenforIncoming() {
-
-		StanzaFilter filter = new StanzaFilter() {
-
-			@Override
-			public boolean accept(Stanza arg0) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-		};
 
 		StanzaListener listener = new StanzaListener() {
 			@Override
 			public void processPacket(Stanza arg0) throws NotConnectedException {
 				// TODO Auto-generated method stub
-				String from = arg0.getFrom();
-				System.out.println(from);
+				// String from = arg0.getFrom();
+				
+				System.out.println(arg0.toString());
 			}
 		};
-		conn2.addPacketListener(listener, filter);
+		conn2.addSyncStanzaListener(listener, null);
 	}
 
 	public void connectToServer() {
@@ -129,6 +119,7 @@ public class CmdClient {
 			public void connected(XMPPConnection arg0) {
 				// TODO Auto-generated method stub
 				System.out.println("connected to server");
+				listenforIncoming();
 				is_connected = 1;
 			}
 

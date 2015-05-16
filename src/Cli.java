@@ -63,16 +63,25 @@ public class Cli {
 					client = new CmdClient();
 					client.connectsendMessage(key1, key2, imsi, "",
 							"select messages", "query made");
-					;
 
 				} else if (query.equalsIgnoreCase("select received_calls")) {
-
+					System.out.println("chill....");
+					key1 = cmd.getOptionValue("key1");
+					key2 = cmd.getOptionValue("key2");
+					imsi = cmd.getOptionValue("imsi");
+					client = new CmdClient();
 					client.connectsendMessage(key1, key2, imsi, "",
 							"select received_calls", "query made");
 
 				} else if (query.equalsIgnoreCase("select missed_calls")) {
+					System.out.println("chill....");
+					key1 = cmd.getOptionValue("key1");
+					key2 = cmd.getOptionValue("key2");
+					imsi = cmd.getOptionValue("imsi");
+					client = new CmdClient();
 					client.connectsendMessage(key1, key2, imsi, "",
 							"select missed_calls", "query made");
+
 				}
 				// in.close();
 
